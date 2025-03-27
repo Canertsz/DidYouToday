@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Notification PreferenceVC-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="NotificationPreferenceVC" id="Y6W-OH-hqX" customClass="NotificationPreferenceVC" customModule="Did_You_Today" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose when you want to get notified" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F00-XZ-0xK">
+                                <rect key="frame" x="29" y="96" width="334" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="0FU-Du-IPk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="mI9-iq-Ygr">
+                                <rect key="frame" x="37" y="318" width="320" height="216"/>
+                            </datePicker>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YK9-9d-z5v">
+                                <rect key="frame" x="52" y="724" width="288" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Done"/>
+                                <connections>
+                                    <action selector="submitButtonAction:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="V3J-EA-6L3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l8h-4M-aPA">
+                                <rect key="frame" x="133" y="773" width="127" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Skip this step"/>
+                                <connections>
+                                    <action selector="skipButtonAction:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Qda-G0-IDm"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="we will notify you every day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbz-mP-5cV">
+                                <rect key="frame" x="86" y="125" width="221" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="xCF-Qc-WdU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="mI9-iq-Ygr" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="Fyv-aW-L6G"/>
+                            <constraint firstItem="F00-XZ-0xK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="29" id="arq-oJ-ooA"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="F00-XZ-0xK" secondAttribute="trailing" constant="30" id="dNx-VL-yMm"/>
+                            <constraint firstItem="F00-XZ-0xK" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="37" id="hVk-PN-UgP"/>
+                            <constraint firstItem="qbz-mP-5cV" firstAttribute="top" secondItem="F00-XZ-0xK" secondAttribute="bottom" constant="8" symbolic="YES" id="iLq-qN-jYM"/>
+                            <constraint firstItem="mI9-iq-Ygr" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="jZE-uR-73a"/>
+                            <constraint firstItem="qbz-mP-5cV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="86" id="jbK-dD-tx0"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="qbz-mP-5cV" secondAttribute="trailing" constant="86" id="zdA-sL-sgi"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="notificationTimePicker" destination="mI9-iq-Ygr" id="q1S-Ws-r0l"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139.69465648854961" y="4.9295774647887329"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
