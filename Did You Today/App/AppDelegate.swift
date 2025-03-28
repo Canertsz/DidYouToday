@@ -7,12 +7,28 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    // Reference to the app's main window for navigation
+    var window: UIWindow?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         ValueTransformer.setValueTransformer(DateArrayTransformer(), forName: NSValueTransformerName("DateArrayTransformer"))
+        
+        // Set up notification delegate
+        UNUserNotificationCenter.current().delegate = self
+        
+        // Check if app was launched from a notification
+        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject] {
+            handleNotification(userInfo: notification)
+        }
+        
+        // Schedule notifications for all records with notification times
+        NotificationService.shared.scheduleAllNotifications()
+        
         return true
     }
 
@@ -74,6 +90,69 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    // Navigate to record detail screen
+    func navigateToRecordDetail(_ record: DidYou) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // Get the root navigation controller if using SceneDelegate
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let sceneDelegate = windowScene.delegate as? SceneDelegate,
+                  let window = sceneDelegate.window,
+                  let rootViewController = window.rootViewController as? UINavigationController else {
+                print("Could not find root navigation controller")
+                return
+            }
+            
+            // Check if already on HomeVC
+            let topVC = rootViewController.topViewController
+            if topVC is HomeVC {
+                // Navigate directly from HomeVC
+                let homeVC = topVC as! HomeVC
+                homeVC.navigateToRecordDetail(record)
+            } else {
+                // Pop to HomeVC first, then navigate
+                rootViewController.popToRootViewController(animated: false)
+                
+                // Wait for pop to complete, then navigate
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    if let homeVC = rootViewController.topViewController as? HomeVC {
+                        homeVC.navigateToRecordDetail(record)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func handleNotification(userInfo: [String: AnyObject]) {
+        guard let recordIDString = userInfo["recordID"] as? String else { return }
+        
+        print("Handling notification with recordID: \(recordIDString)")
+        
+        // Logic to navigate to the specific record will be handled in notification delegate methods
+    }
+}
 
+// MARK: - UNUserNotificationCenterDelegate
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    // Handle notifications when app is in foreground
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        // Show the notification even when the app is in foreground
+        completionHandler([.banner, .sound, .badge])
+    }
+    
+    // Handle notification interaction when user taps on it
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        // Get record from notification
+        if let record = NotificationService.shared.getRecordFromNotificationResponse(response) {
+            print("User tapped on notification for record: \(record.activityName ?? "unknown")")
+            
+            // Navigate to the record detail screen
+            navigateToRecordDetail(record)
+        } else {
+            print("Could not find record for notification: \(response.notification.request.identifier)")
+        }
+        
+        completionHandler()
+    }
 }
 
