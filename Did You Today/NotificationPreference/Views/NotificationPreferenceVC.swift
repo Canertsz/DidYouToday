@@ -12,15 +12,13 @@ protocol NotificationPreferenceViewProtocol: AnyObject {
 }
 
 final class NotificationPreferenceVC: UIViewController {
-    
     var viewModel: NotificationPreferenceViewModelProtocol!
 
     @IBOutlet weak var notificationTimePicker: UIDatePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+   
     }
     
     @IBAction func submitButtonAction(_ sender: Any) {

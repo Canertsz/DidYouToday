@@ -17,9 +17,6 @@ final class RecordCreationCoordinator {
     
     init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
-        
-        
-
     }
 }
 

@@ -4,6 +4,7 @@
 //
 //  Created by Caner Tüysüz on 4.03.2025.
 //
+
 import UIKit
 
 protocol AddDidYouViewModelProtocol {
@@ -70,9 +71,4 @@ extension AddDidYouVM: AddDidYouViewModelProtocol {
                                                            answerButtonText: answerButtonText,
                                                            activityName: activityName)
     }
-}
-
-// MARK: -
-extension AddDidYouVM {
-    
 }

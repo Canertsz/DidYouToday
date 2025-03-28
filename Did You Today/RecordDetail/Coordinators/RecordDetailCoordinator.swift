@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol RecordDetailCoordinatorProtocol {
-    func navigateToAddDidYouScreen()
+    
 }
 
 final class RecordDetailCoordinator {
@@ -22,7 +22,5 @@ final class RecordDetailCoordinator {
 
 // MARK: - Navigations
 extension RecordDetailCoordinator: RecordDetailCoordinatorProtocol {
-    func navigateToAddDidYouScreen() {
-        
-    }
+    
 }

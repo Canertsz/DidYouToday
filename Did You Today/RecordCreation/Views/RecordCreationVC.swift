@@ -54,7 +54,6 @@ extension RecordCreationVC: RecordCreationViewProtocol {
         animationView!.play()
     }
     
-    // Burada refactor gerekli, vc bunu yapmamalı
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {
         self.dismiss(animated: animated, completion: completion)
     }
