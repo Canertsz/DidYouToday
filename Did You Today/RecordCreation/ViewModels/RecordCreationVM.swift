@@ -20,6 +20,7 @@ final class RecordCreationVM {
     private var answerButtonText: String!
     private var activityName: String!
     private var date: Date?
+    private var createdRecord: DidYou?
     
     init(
         view: RecordCreationViewProtocol,
@@ -48,7 +49,17 @@ extension RecordCreationVM: RecordCreationViewModelProtocol {
     }
     
     func saveToCoreData() {
-        CoreDataService.addCoreData(activityName: activityName, buttonColor: buttonColor, buttonText: answerButtonText, notificationTime: date)
+        createdRecord = CoreDataService.addCoreData(activityName: activityName, buttonColor: buttonColor, buttonText: answerButtonText, notificationTime: date)
+        
+        if let record = createdRecord, date != nil {
+            NotificationService.shared.requestNotificationPermission { granted in
+                if granted {
+                    NotificationService.shared.scheduleNotification(for: record)
+                } else {
+                    print("Notification permission not granted")
+                }
+            }
+        }
         
         NotificationCenter.default.post(name: .didFinishCreatingRecord, object: nil)
         
