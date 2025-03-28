@@ -9,13 +9,13 @@ import Foundation
 import UIKit
 
 protocol CoreDataServiceProtocol {
-    static func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?)
+    static func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) -> DidYou?
     static func fetchCoreData(onSuccess: @escaping ([DidYou]?) -> Void)
     static func deleteCoreData(indexPath: Int, items: [DidYou])
 }
 
 class CoreDataService: CoreDataServiceProtocol {
-    static func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) {
+    static func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) -> DidYou? {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let newRecord = DidYou(context: context)
         
@@ -26,8 +26,10 @@ class CoreDataService: CoreDataServiceProtocol {
         
         do {
             try context.save()
+            return newRecord
         } catch {
             print("error-Saving data")
+            return nil
         }
     }
     
