@@ -11,6 +11,13 @@ protocol ColorPickerViewProtocol: AnyObject {
     
 }
 
+extension ColorPickerView {
+    enum constants {
+        static let collectionViewItemWidth: CGFloat = 24.0
+        static let collectionViewItemHeight: CGFloat = 24.0
+    }
+}
+
 final class ColorPickerView: UIView {
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -31,12 +38,7 @@ final class ColorPickerView: UIView {
     }
     
     private func setupView() {
-        // make generic
-        let nib = UINib(nibName: "ColorPickerView", bundle: Bundle.main)
-        guard let view = nib.instantiate(withOwner: self, options: nil).first as? UIView else { return }
-        view.frame = self.bounds
-        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        addSubview(view)
+        loadFromNib()
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -58,8 +60,7 @@ extension ColorPickerView: UICollectionViewDataSource, UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // build constants struct. if there any, put calculations to vm
-        return CGSize(width: 24, height: 24)
+        return CGSize(width: constants.collectionViewItemWidth, height: constants.collectionViewItemHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

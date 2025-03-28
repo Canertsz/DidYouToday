@@ -15,6 +15,13 @@ protocol AddDidYouViewProtocol: AnyObject {
     func observeTextfields()
 }
 
+extension AddDidYouVC {
+    enum constants {
+        static let answerButtonTextFieldPlaceholder = "type here..."
+        static let answerButtonBGColorAlphaValue = 1.0
+    }
+}
+
 final class AddDidYouVC: UIViewController {
     var viewModel: AddDidYouViewModelProtocol!
 
@@ -43,13 +50,15 @@ final class AddDidYouVC: UIViewController {
     }
 }
 
+//MARK: - AddDidYouViewProtocol
 extension AddDidYouVC: AddDidYouViewProtocol {
     func setupUI() {
         nextPageNavigationButton.isEnabled = false
+        // UITextField+Extension method
         activityNameInputTextField.addBottomBorder()
         
         asnwerButtonTextInputTextField.attributedPlaceholder = NSAttributedString(
-            string: "type here...",
+            string: constants.answerButtonTextFieldPlaceholder,
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
         )
     }
@@ -59,7 +68,7 @@ extension AddDidYouVC: AddDidYouViewProtocol {
     }
     
     func setButtonBackgroundColor(hex: String) {
-        let backgroundColor = UIColor.init(hexCode: hex, alpha: 1)
+        let backgroundColor = UIColor.init(hexCode: hex, alpha: constants.answerButtonBGColorAlphaValue)
         asnwerButtonTextInputTextField.backgroundColor = backgroundColor
     }
     
@@ -71,7 +80,6 @@ extension AddDidYouVC: AddDidYouViewProtocol {
     func enableNextPageNavigation() {
         nextPageNavigationButton.isEnabled = true
     }
-    
     
 }
 
