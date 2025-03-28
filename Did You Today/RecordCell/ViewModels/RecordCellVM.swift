@@ -19,15 +19,21 @@ final class RecordCellVM {
         self.record = record
     }
     
+    private func getStreakCount() -> Int {
+        guard let timeLogs = record.timeLogs as? [Date] else {
+            return 0
+        }
+        return timeLogs.count
+    }
 }
 
 // MARK: - RecordCellViewModelProtocol
 extension RecordCellVM: RecordCellViewModelProtocol {
     var title: String {
-        return record.activityName ?? "Activity"
+        return record.activityName ?? "Unnamed Activity"
     }
     
     var streak: String {
-        return "0"
+        return "\(getStreakCount())"
     }
 }

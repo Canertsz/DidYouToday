@@ -11,6 +11,9 @@ protocol HomeViewModelProtocol {
     func viewDidLoad()
     func addDidYouButtonTapped()
     func record(for indexPath: IndexPath) -> DidYou?
+    func didSelectRecord(at indexPath: IndexPath)
+    func refreshData()
+    func navigateToRecordDetail(_ record: DidYou)
     var numberOfItemsInSection: Int { get }
 }
 
@@ -47,14 +50,32 @@ extension HomeVM: HomeViewModelProtocol {
     }
     
     func record(for indexPath: IndexPath) -> DidYou? { records[safe: indexPath.row] }
+    
+    func didSelectRecord(at indexPath: IndexPath) {
+        guard let record = records[safe: indexPath.row] else { return }
+        coordinator.navigateToRecordDetailScreen(record: record)
+    }
+    
+    func refreshData() {
+        fetchRecords()
+        view?.reloadUI()
+    }
+    
+    func navigateToRecordDetail(_ record: DidYou) {
+        coordinator.navigateToRecordDetailScreen(record: record)
+    }
 }
 
 //MARK: - FetchRecords
 extension HomeVM {
     func fetchRecords() {
         CoreDataService.fetchCoreData { [weak self] records in
-            guard let records else { return }
-            self?.records = records
+            guard let self, let records else { return }
+            self.records = records
+            
+            DispatchQueue.main.async {
+                self.view?.reloadUI()
+            }
         }
     }
 }
@@ -71,7 +92,6 @@ extension HomeVM {
     }
 
     @objc private func handleRecordCreation() {
-        fetchRecords()
-        view?.reloadUI()
+        refreshData()
     }
 }

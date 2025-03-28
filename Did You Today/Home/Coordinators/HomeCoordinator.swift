@@ -10,6 +10,7 @@ import UIKit
 
 protocol HomeCoordinatorProtocol {
     func navigateToAddDidYouScreen()
+    func navigateToRecordDetailScreen(record: DidYou)
 }
 
 final class HomeCoordinator {
@@ -41,6 +42,21 @@ extension HomeCoordinator: HomeCoordinatorProtocol {
         let viewModel = AddDidYouVM(
             view: viewController,
             coordinator: coordinator
+        )
+        
+        viewController.viewModel = viewModel
+        
+        navigationController?.pushViewController(viewController,
+                                                 animated: true)
+    }
+    
+    func navigateToRecordDetailScreen(record: DidYou) {
+        let viewController = RecordDetailVC.instantiateViewController()
+        let coordinator = RecordDetailCoordinator(navigationController: navigationController)
+        let viewModel = RecordDetailVM(
+            view: viewController,
+            coordinator: coordinator,
+            record: record
         )
         
         viewController.viewModel = viewModel

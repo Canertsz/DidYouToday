@@ -7,6 +7,13 @@
 
 import UIKit
 
+extension RecordCell {
+    enum constants {
+        static let cellCornerRadius: CGFloat = 10
+        static let cellPadding: CGFloat = 8
+    }
+}
+
 final class RecordCell: UITableViewCell {
     var viewModel: RecordCellViewModelProtocol? {
         didSet {
@@ -23,23 +30,17 @@ final class RecordCell: UITableViewCell {
     }
     
     func setupUI() {
-        // Add corner radius to the content view
-        contentView.layer.cornerRadius = 10
+        contentView.layer.cornerRadius = constants.cellCornerRadius
         contentView.layer.masksToBounds = true
         
-        // Configure the cell for a card-like appearance
         backgroundColor = .clear
         selectionStyle = .none
-        
-        // Make sure the background color is set on the content view
     }
     
-    // Add padding around the cell
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        // Set the insets for padding around the cell
-        let padding: CGFloat = 8
+        let padding: CGFloat = constants.cellPadding
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding))
     }
     
