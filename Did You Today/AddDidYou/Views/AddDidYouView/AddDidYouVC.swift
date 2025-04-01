@@ -33,6 +33,24 @@ final class AddDidYouVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.viewDidLoad()
+        setupTapGestureToDismissKeyboard()
+        setupTextFieldDelegates()
+    }
+    
+    private func setupTapGestureToDismissKeyboard() {
+        // Add tap gesture recognizer to dismiss keyboard when tapping outside text fields
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false // Allow other touch events to still work
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    private func setupTextFieldDelegates() {
+        activityNameInputTextField.delegate = self
+        asnwerButtonTextInputTextField.delegate = self
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @objc
@@ -47,6 +65,20 @@ final class AddDidYouVC: UIViewController {
     
     @IBAction func nextPageButtonAction(_ sender: Any) {
         viewModel.nextPageButtonTapped()
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension AddDidYouVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // If activity name field is active, move to answer button field
+        if textField == activityNameInputTextField {
+            asnwerButtonTextInputTextField.becomeFirstResponder()
+        } else {
+            // Otherwise, dismiss keyboard
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }
 
@@ -68,7 +100,7 @@ extension AddDidYouVC: AddDidYouViewProtocol {
     }
     
     func setButtonBackgroundColor(hex: String) {
-        let backgroundColor = UIColor.init(hexCode: hex, alpha: constants.answerButtonBGColorAlphaValue)
+        let backgroundColor = UIColor.init(hex: hex)
         asnwerButtonTextInputTextField.backgroundColor = backgroundColor
     }
     
