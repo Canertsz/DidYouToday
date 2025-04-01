@@ -26,6 +26,6 @@ final class ColorPickerColorCell: UICollectionViewCell {
     
     func setBGColor() {
         guard let color = color else { return }
-        backgroundColor = UIColor.init(hexCode: color, alpha: 1)
+        backgroundColor = UIColor.init(hex: color)
     }
 }
