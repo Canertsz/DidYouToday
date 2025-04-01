@@ -11,6 +11,8 @@ import UIKit
 protocol RecordDetailViewModelProtocol {
     func viewDidLoad()
     func answerButtonTapped()
+    func editActivityButtonTapped()
+    func refreshData()
     var activityName: String { get }
     var buttonText: String { get }
     var buttonColor: UIColor { get }
@@ -48,7 +50,7 @@ extension RecordDetailVM: RecordDetailViewModelProtocol {
     
     var buttonColor: UIColor {
         let colorString = record.buttonColor ?? "#000000"
-        return UIColor(hexCode: colorString, alpha: 1.0)
+        return UIColor(hex: colorString)
     }
     
     func viewDidLoad() {
@@ -59,5 +61,19 @@ extension RecordDetailVM: RecordDetailViewModelProtocol {
     func answerButtonTapped() {
         calendarViewModel?.addCurrentDate()
         view?.updateCalendar()
+    }
+    
+    func editActivityButtonTapped() {
+        coordinator.navigateToEditActivity(record: record)
+    }
+    
+    func refreshData() {
+        if let _ = CoreDataService.getRecord(by: record.objectID) {
+            view?.setupUI()
+            
+            calendarViewModel = nil
+            view?.setupCalendar(with: setupCalendarViewModel())
+            view?.updateCalendar()
+        }
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol RecordDetailCoordinatorProtocol {
-    
+    func navigateToEditActivity(record: DidYou)
 }
 
 final class RecordDetailCoordinator {
@@ -22,5 +22,18 @@ final class RecordDetailCoordinator {
 
 // MARK: - Navigations
 extension RecordDetailCoordinator: RecordDetailCoordinatorProtocol {
-    
+    func navigateToEditActivity(record: DidYou) {
+        let viewController = EditActivityVC.instantiateViewController()
+        let coordinator = EditActivityCoordinator(navigationController: navigationController)
+        
+        let viewModel = EditActivityVM(
+            view: viewController,
+            coordinator: coordinator,
+            record: record
+        )
+        
+        viewController.viewModel = viewModel
+        
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }

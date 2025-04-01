@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wait for couple second..." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSP-CS-akS">
-                                <rect key="frame" x="91" y="179" width="210" height="23"/>
+                                <rect key="frame" x="92.000000000000014" y="155" width="209.33333333333337" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="u3x-BU-Yds"/>
                                 </constraints>
@@ -29,9 +29,8 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="sSP-CS-akS" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="91" id="Oye-Rk-trf"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="sSP-CS-akS" secondAttribute="trailing" constant="92" id="jiM-49-Ux3"/>
-                            <constraint firstItem="sSP-CS-akS" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="120" id="rbq-1J-XpT"/>
+                            <constraint firstItem="sSP-CS-akS" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="96" id="bEg-fv-suX"/>
+                            <constraint firstItem="sSP-CS-akS" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="dGC-j2-HPI"/>
                         </constraints>
                     </view>
                 </viewController>
