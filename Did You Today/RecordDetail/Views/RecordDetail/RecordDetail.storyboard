@@ -63,6 +63,9 @@
                                 <buttonConfiguration key="configuration" style="plain" imagePlacement="trailing" title="Edit Activity" imagePadding="5">
                                     <imageReference key="image" image="square.and.pencil" catalog="system" symbolScale="medium"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="editActivityButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="jNV-YS-c5q"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sCX-YT-3e9" customClass="CalendarView" customModule="Did_You_Today" customModuleProvider="target">
                                 <rect key="frame" x="35" y="416" width="324" height="321"/>
@@ -109,6 +112,7 @@
                     <connections>
                         <outlet property="activityNameLabel" destination="hSL-5Z-RA4" id="CU9-I1-X0Y"/>
                         <outlet property="answerButton" destination="Kx8-6k-laS" id="J33-Pc-WQF"/>
+                        <outlet property="editActivityButton" destination="Yu9-Q6-GOl" id="g7E-W5-vJW"/>
                         <outlet property="pastRecordsCalendar" destination="sCX-YT-3e9" id="vno-uf-XHc"/>
                     </connections>
                 </viewController>
