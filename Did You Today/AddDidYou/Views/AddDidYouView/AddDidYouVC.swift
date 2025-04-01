@@ -12,6 +12,7 @@ protocol AddDidYouViewProtocol: AnyObject {
     func setButtonBackgroundColor(hex: String)
     func setupColorPickerView(delegate: ColorPickerViewModelDelegate)
     func enableNextPageNavigation()
+    func disableNextPageNavigation()
     func observeTextfields()
 }
 
@@ -38,9 +39,8 @@ final class AddDidYouVC: UIViewController {
     }
     
     private func setupTapGestureToDismissKeyboard() {
-        // Add tap gesture recognizer to dismiss keyboard when tapping outside text fields
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false // Allow other touch events to still work
+        tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
     }
     
@@ -71,11 +71,9 @@ final class AddDidYouVC: UIViewController {
 // MARK: - UITextFieldDelegate
 extension AddDidYouVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // If activity name field is active, move to answer button field
         if textField == activityNameInputTextField {
             asnwerButtonTextInputTextField.becomeFirstResponder()
         } else {
-            // Otherwise, dismiss keyboard
             textField.resignFirstResponder()
         }
         return true
@@ -113,6 +111,9 @@ extension AddDidYouVC: AddDidYouViewProtocol {
         nextPageNavigationButton.isEnabled = true
     }
     
+    func disableNextPageNavigation() {
+        nextPageNavigationButton.isEnabled = false
+    }
 }
 
 extension AddDidYouVC: StoryboardInstantiable {

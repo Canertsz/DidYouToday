@@ -31,8 +31,10 @@ final class AddDidYouVM {
     }
     
     private func didFormChanged() {
-        if !answerButtonText.isEmpty && !activityName.isEmpty  {
+        if !answerButtonText.isEmpty && !activityName.isEmpty {
             view?.enableNextPageNavigation()
+        } else {
+            view?.disableNextPageNavigation()
         }
     }
 }
