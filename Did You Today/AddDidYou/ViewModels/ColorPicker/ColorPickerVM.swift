@@ -50,9 +50,10 @@ private extension ColorPickerViewModel {
     enum Color: CaseIterable {
         case black
         case green
-        case blue
+        case purple
         case red
         case orange
+        case pink
         
         var hex: String {
             switch self {
@@ -60,12 +61,14 @@ private extension ColorPickerViewModel {
                     return "#444444"
                 case .green:
                     return "#00FF00"
-                case .blue:
-                    return "#0000FF"
+                case .purple:
+                    return "#7703fc"
                 case .red:
                     return "#FF0000"
                 case .orange:
                     return "#FFA500"
+                case .pink:
+                    return "#ff0088"
             }
         }
     }
