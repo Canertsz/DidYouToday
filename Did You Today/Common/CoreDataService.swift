@@ -7,11 +7,13 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 protocol CoreDataServiceProtocol {
     static func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) -> DidYou?
     static func fetchCoreData(onSuccess: @escaping ([DidYou]?) -> Void)
     static func deleteCoreData(indexPath: Int, items: [DidYou])
+    static func getRecord(by objectID: NSManagedObjectID) -> DidYou?
 }
 
 class CoreDataService: CoreDataServiceProtocol {
@@ -51,6 +53,16 @@ class CoreDataService: CoreDataServiceProtocol {
             try context.save()
         } catch {
             print("error-Deleting data")
+        }
+    }
+    
+    static func getRecord(by objectID: NSManagedObjectID) -> DidYou? {
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        do {
+            return try context.existingObject(with: objectID) as? DidYou
+        } catch {
+            print("error-Fetching record by objectID: \(error)")
+            return nil
         }
     }
 }
