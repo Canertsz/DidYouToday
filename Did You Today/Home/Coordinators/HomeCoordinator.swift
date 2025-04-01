@@ -21,7 +21,6 @@ final class HomeCoordinator {
     }
     
     func start() {
-        navigationController?.navigationBar.tintColor = UIColor.black
         let viewController = HomeVC.instantiateViewController()
         let viewModel = HomeVM(view: viewController,
                                           coordinator: self)

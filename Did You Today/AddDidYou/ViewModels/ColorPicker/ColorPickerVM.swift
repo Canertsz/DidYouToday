@@ -57,7 +57,7 @@ private extension ColorPickerViewModel {
         var hex: String {
             switch self {
                 case .black:
-                    return "#000000"
+                    return "#444444"
                 case .green:
                     return "#00FF00"
                 case .blue:

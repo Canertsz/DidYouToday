@@ -32,7 +32,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Records" id="WWS-71-xOV">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="rPH-oW-Fx5">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="tintColor" systemColor="tintColor"/>
                             <connections>
                                 <action selector="addDidYouButtonAction:" destination="BYZ-38-t0r" id="v2G-b4-b2r"/>
                             </connections>
@@ -72,6 +72,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
