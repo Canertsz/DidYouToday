@@ -16,7 +16,7 @@ class NotificationService {
     
     private init() {}
     
-    // Request notification permissions
+    // Permissions
     func requestNotificationPermission(completion: @escaping (Bool) -> Void) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             if let error = error {
@@ -29,7 +29,7 @@ class NotificationService {
         }
     }
     
-    // Schedule a notification for a specific record
+    // Schedule notification
     func scheduleNotification(for record: DidYou) {
         guard let activityName = record.activityName,
               let notificationTime = record.notificationTime else {
@@ -37,37 +37,27 @@ class NotificationService {
             return
         }
         
-        // Get record's objectID string for later retrieval
         let recordIDString = record.objectID.uriRepresentation().absoluteString
-        
-        // Create a unique identifier for this notification based on the record
         let notificationId = "didyou-\(activityName.lowercased().replacingOccurrences(of: " ", with: "-"))"
         
-        // Remove any existing notifications with this ID
         cancelNotification(withId: notificationId)
         
-        // Create notification content
         let content = UNMutableNotificationContent()
         content.title = "Did You Today"
         content.body = "Did you \(activityName) today?"
         content.sound = .default
         
-        // Add the record's objectID to the notification's userInfo
         content.userInfo = ["recordID": recordIDString]
         
-        // Extract hour and minute components from the notificationTime
         let calendar = Calendar.current
         let components = calendar.dateComponents([.hour, .minute], from: notificationTime)
         
-        // Create a daily trigger at the specified time
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
         
-        // Create the request
         let request = UNNotificationRequest(identifier: notificationId, content: content, trigger: trigger)
         
-        // Add the request to the notification center
         UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
+            if let error {
                 print("Error scheduling notification: \(error.localizedDescription)")
             } else {
                 print("Successfully scheduled notification for '\(activityName)' at \(notificationTime)")
@@ -75,12 +65,10 @@ class NotificationService {
         }
     }
     
-    // Get record from notification userInfo
     func getRecordFromNotification(_ notification: UNNotification) -> DidYou? {
         return getRecordFromUserInfo(notification.request.content.userInfo)
     }
     
-    // Get record from notification response
     func getRecordFromNotificationResponse(_ response: UNNotificationResponse) -> DidYou? {
         return getRecordFromUserInfo(response.notification.request.content.userInfo)
     }
@@ -109,20 +97,17 @@ class NotificationService {
         }
     }
     
-    // Cancel a specific notification
     func cancelNotification(withId id: String) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
     }
     
-    // Cancel all notifications for the app
     func cancelAllNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
     
-    // Schedule notifications for all records with notification times
     func scheduleAllNotifications() {
         CoreDataService.fetchCoreData { records in
-            guard let records = records else { return }
+            guard let records else { return }
             
             for record in records {
                 if record.notificationTime != nil {
