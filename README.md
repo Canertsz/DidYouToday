@@ -21,5 +21,5 @@ https://github.com/user-attachments/assets/ccb9ce0d-a759-42b9-a6e8-d663ec9223b4
 ![Ekran Resmi 2025-04-14 11 37 36](https://github.com/user-attachments/assets/928eb0b0-4bd0-4be1-8915-6167bb59d4d7)
 ![Ekran Resmi 2025-04-14 11 37 56](https://github.com/user-attachments/assets/997ecc8f-4e69-47a1-9dad-46e7230d09ec)
 
-## licencing
+## Licensing
 This app has no licence 😅 Feel free to do anything with it!
