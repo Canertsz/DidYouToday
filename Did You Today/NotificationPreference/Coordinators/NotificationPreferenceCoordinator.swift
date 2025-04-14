@@ -21,6 +21,20 @@ final class NotificationPreferenceCoordinator {
     init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
     }
+    
+    func start(buttonColor: String, answerButtonText: String, activityName: String) {
+        let viewController = NotificationPreferenceVC.instantiateViewController()
+        let viewModel = NotificationPreferenceVM(view: viewController,
+                                                 coordinator: self,
+                                                 buttonColor: buttonColor,
+                                                 answerButtonText: answerButtonText,
+                                                 activityName: activityName)
+        
+        viewController.viewModel = viewModel
+        
+        navigationController?.pushViewController(viewController,
+                                                 animated: true)
+    }
 }
 
 //MARK: - Navigations
@@ -29,22 +43,11 @@ extension NotificationPreferenceCoordinator: NotificationPreferenceCoordinatorPr
                                         answerButtonText: String,
                                         activityName: String,
                                         date: Date?) {
-        let viewController = RecordCreationVC.instantiateViewController()
-        let coordinator = RecordCreationCoordinator(navigationController: navigationController)
         
-        let viewModel = RecordCreationVM(
-            view: viewController,
-            coordinator: coordinator,
-            buttonColor: buttonColor,
-            answerButtonText: answerButtonText,
-            activityName: activityName,
-            date: date
-        )
-        
-        viewController.viewModel = viewModel
-        viewController.modalPresentationStyle = .fullScreen
-        
-        navigationController?.present(viewController,
-                                                 animated: true)
+        let recordCreationCoordinator = RecordCreationCoordinator(navigationController: navigationController)
+        recordCreationCoordinator.start(buttonColor: buttonColor,
+                                        answerButtonText: answerButtonText,
+                                        activityName: activityName,
+                                        date: date)
     }
 }

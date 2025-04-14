@@ -10,15 +10,21 @@ import UIKit
 import CoreData
 
 protocol CoreDataServiceProtocol {
-    static func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) -> DidYou?
-    static func fetchCoreData(onSuccess: @escaping ([DidYou]?) -> Void)
-    static func deleteCoreData(indexPath: Int, items: [DidYou])
-    static func getRecord(by objectID: NSManagedObjectID) -> DidYou?
+    func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) -> DidYou?
+    func fetchCoreData(onSuccess: @escaping ([DidYou]?) -> Void)
+    func deleteCoreData(indexPath: Int, items: [DidYou])
+    func getRecord(by objectID: NSManagedObjectID) -> DidYou?
 }
 
 class CoreDataService: CoreDataServiceProtocol {
-    static func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) -> DidYou? {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    static let shared = CoreDataService()
+    
+    var contextProvider: () -> NSManagedObjectContext = {
+        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    }
+    
+    func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) -> DidYou? {
+        let context = contextProvider()
         let newRecord = DidYou(context: context)
         
         newRecord.activityName = activityName
@@ -35,8 +41,8 @@ class CoreDataService: CoreDataServiceProtocol {
         }
     }
     
-    static func fetchCoreData(onSuccess: @escaping ([DidYou]?) -> Void) {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    func fetchCoreData(onSuccess: @escaping ([DidYou]?) -> Void) {
+        let context = contextProvider()
         do {
             let items = try context.fetch(DidYou.fetchRequest()) as? [DidYou]
             onSuccess(items)
@@ -45,8 +51,8 @@ class CoreDataService: CoreDataServiceProtocol {
         }
     }
     
-    static func deleteCoreData(indexPath: Int, items: [DidYou]) {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    func deleteCoreData(indexPath: Int, items: [DidYou]) {
+        let context = contextProvider()
         let dataToRemove = items[indexPath]
         context.delete(dataToRemove)
         do {
@@ -56,13 +62,32 @@ class CoreDataService: CoreDataServiceProtocol {
         }
     }
     
-    static func getRecord(by objectID: NSManagedObjectID) -> DidYou? {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    func getRecord(by objectID: NSManagedObjectID) -> DidYou? {
+        let context = contextProvider()
         do {
             return try context.existingObject(with: objectID) as? DidYou
         } catch {
             print("error-Fetching record by objectID: \(error)")
             return nil
         }
+    }
+}
+
+// Static wrapper methods for backward compatibility with existing code
+extension CoreDataService {
+    static func addCoreData(activityName: String, buttonColor: String, buttonText: String, notificationTime: Date?) -> DidYou? {
+        return shared.addCoreData(activityName: activityName, buttonColor: buttonColor, buttonText: buttonText, notificationTime: notificationTime)
+    }
+    
+    static func fetchCoreData(onSuccess: @escaping ([DidYou]?) -> Void) {
+        shared.fetchCoreData(onSuccess: onSuccess)
+    }
+    
+    static func deleteCoreData(indexPath: Int, items: [DidYou]) {
+        shared.deleteCoreData(indexPath: indexPath, items: items)
+    }
+    
+    static func getRecord(by objectID: NSManagedObjectID) -> DidYou? {
+        return shared.getRecord(by: objectID)
     }
 }

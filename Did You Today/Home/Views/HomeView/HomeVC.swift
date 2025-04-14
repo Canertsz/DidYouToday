@@ -20,49 +20,36 @@ extension HomeVC {
 
 final class HomeVC: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
-    
-    private let emptyStateView = EmptyStateView()
+    @IBOutlet weak var emptyStateView: EmptyStateView!
     
     var viewModel: HomeViewModelProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupEmptyStateView()
         viewModel.viewDidLoad()
+        
+        emptyStateView.addTapGestureRecognizer {
+            self.viewModel.addDidYouButtonTapped()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         viewModel.refreshData()
-    }
-
-    private func setupEmptyStateView() {
-        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(emptyStateView)
-        
-        NSLayoutConstraint.activate([
-            emptyStateView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            emptyStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            emptyStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            emptyStateView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
-        emptyStateView.isHidden = true
-    }
-    
-    private func updateEmptyStateVisibility() {
-        let hasRecords = viewModel.numberOfItemsInSection > 0
-        emptyStateView.isHidden = hasRecords
-        tableView.isHidden = !hasRecords
     }
 
     @IBAction private func addDidYouButtonAction(_ sender: Any) {
         viewModel.addDidYouButtonTapped()
     }
     
-    func navigateToRecordDetail(_ record: DidYou) {
-        viewModel.navigateToRecordDetail(record)
+}
+
+// MARK: - EmptyStateView
+extension HomeVC {
+    private func updateEmptyStateVisibility() {
+        let hasRecords = viewModel.numberOfItemsInSection > 0
+        emptyStateView.isHidden = hasRecords
+        tableView.isHidden = !hasRecords
     }
 }
 

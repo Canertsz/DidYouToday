@@ -1,0 +1,31 @@
+import XCTest
+import CoreData
+@testable import Did_You_Today
+
+class MockDidYou: DidYou {
+    private var mockedActivityName: String?
+    private var mockedButtonText: String?
+    private var mockedButtonColor: String?
+    
+    override var activityName: String? {
+        get { return mockedActivityName }
+        set { mockedActivityName = newValue }
+    }
+    
+    override var buttonText: String? {
+        get { return mockedButtonText }
+        set { mockedButtonText = newValue }
+    }
+    
+    override var buttonColor: String? {
+        get { return mockedButtonColor }
+        set { mockedButtonColor = newValue }
+    }
+    
+    convenience init(activityName: String?, buttonText: String?, buttonColor: String?) {
+        self.init()
+        self.mockedActivityName = activityName
+        self.mockedButtonText = buttonText
+        self.mockedButtonColor = buttonColor
+    }
+} 

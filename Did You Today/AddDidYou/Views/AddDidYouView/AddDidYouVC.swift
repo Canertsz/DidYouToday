@@ -11,8 +11,7 @@ protocol AddDidYouViewProtocol: AnyObject {
     func setupUI()
     func setButtonBackgroundColor(hex: String)
     func setupColorPickerView(delegate: ColorPickerViewModelDelegate)
-    func enableNextPageNavigation()
-    func disableNextPageNavigation()
+    func setEnableNextPageNavigation(isEnabled: Bool)
     func observeTextfields()
 }
 
@@ -107,12 +106,8 @@ extension AddDidYouVC: AddDidYouViewProtocol {
         asnwerButtonTextInputTextField.addTarget(self, action: #selector(self.didAnswerButtonTextChanged), for: .editingChanged)
     }
     
-    func enableNextPageNavigation() {
-        nextPageNavigationButton.isEnabled = true
-    }
-    
-    func disableNextPageNavigation() {
-        nextPageNavigationButton.isEnabled = false
+    func setEnableNextPageNavigation(isEnabled: Bool) {
+        nextPageNavigationButton.isEnabled = isEnabled
     }
 }
 

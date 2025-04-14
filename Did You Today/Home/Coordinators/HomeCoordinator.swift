@@ -23,7 +23,7 @@ final class HomeCoordinator {
     func start() {
         let viewController = HomeVC.instantiateViewController()
         let viewModel = HomeVM(view: viewController,
-                                          coordinator: self)
+                               coordinator: self)
         
         viewController.viewModel = viewModel
         
@@ -36,31 +36,13 @@ final class HomeCoordinator {
 // MARK: - Navigations
 extension HomeCoordinator: HomeCoordinatorProtocol {
     func navigateToAddDidYouScreen() {
-        let viewController = AddDidYouVC.instantiateViewController()
-        let coordinator = AddDidYouCoordinator(navigationController: navigationController)
-        let viewModel = AddDidYouVM(
-            view: viewController,
-            coordinator: coordinator
-        )
-        
-        viewController.viewModel = viewModel
-        
-        navigationController?.pushViewController(viewController,
-                                                 animated: true)
+        let addDidYouCoordinator = AddDidYouCoordinator(navigationController: navigationController)
+        addDidYouCoordinator.start()
     }
     
     func navigateToRecordDetailScreen(record: DidYou) {
-        let viewController = RecordDetailVC.instantiateViewController()
-        let coordinator = RecordDetailCoordinator(navigationController: navigationController)
-        let viewModel = RecordDetailVM(
-            view: viewController,
-            coordinator: coordinator,
-            record: record
-        )
-        
-        viewController.viewModel = viewModel
-        
-        navigationController?.pushViewController(viewController,
-                                                 animated: true)
+        let recordDetailCoordinator = RecordDetailCoordinator(navigationController: navigationController,
+                                                              didYou: record)
+        recordDetailCoordinator.start()
     }
 }

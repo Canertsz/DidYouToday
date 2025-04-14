@@ -52,9 +52,9 @@
 			path = "Did You Today";
 			sourceTree = "<group>";
 		};
-		32C689C82D720C1600ADB068 /* Did You TodayTests */ = {
+		32C689C82D720C1600ADB068 /* Did You Today Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Did You TodayTests";
+			path = "Did You Today Tests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -89,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				32C689AE2D720C1500ADB068 /* Did You Today */,
-				32C689C82D720C1600ADB068 /* Did You TodayTests */,
+				32C689C82D720C1600ADB068 /* Did You Today Tests */,
 				32C689AD2D720C1500ADB068 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -144,7 +144,7 @@
 				32C689C72D720C1600ADB068 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				32C689C82D720C1600ADB068 /* Did You TodayTests */,
+				32C689C82D720C1600ADB068 /* Did You Today Tests */,
 			);
 			name = "Did You TodayTests";
 			packageProductDependencies = (

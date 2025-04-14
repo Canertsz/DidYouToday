@@ -20,24 +20,22 @@ final class AddDidYouCoordinator {
     init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
     }
-}
-
-extension AddDidYouCoordinator: AddDidYouCoordinatorProtocol {
-    func navigateToNotificationPreferenceScreen(buttonColor: String, answerButtonText: String, activityName: String) {
-        let viewController = NotificationPreferenceVC.instantiateViewController()
-        let coordinator = NotificationPreferenceCoordinator(navigationController: navigationController)
-        
-        let viewModel = NotificationPreferenceVM(
-            view: viewController,
-            coordinator: coordinator,
-            buttonColor: buttonColor,
-            answerButtonText: answerButtonText,
-            activityName: activityName
-        )
+    
+    func start() {
+        let viewController = AddDidYouVC.instantiateViewController()
+        let viewModel = AddDidYouVM(view: viewController,
+                                    coordinator: self)
         
         viewController.viewModel = viewModel
         
         navigationController?.pushViewController(viewController,
                                                  animated: true)
+    }
+}
+
+extension AddDidYouCoordinator: AddDidYouCoordinatorProtocol {
+    func navigateToNotificationPreferenceScreen(buttonColor: String, answerButtonText: String, activityName: String) {
+        let notificationPreferenceCoordinator = NotificationPreferenceCoordinator(navigationController: navigationController)
+        notificationPreferenceCoordinator.start(buttonColor: buttonColor, answerButtonText: answerButtonText, activityName: activityName)
     }
 }

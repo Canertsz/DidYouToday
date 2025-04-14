@@ -31,6 +31,17 @@ final class EditActivityVC: UIViewController {
         setupTextFieldDelegates()
     }
     
+    @IBAction func saveChangesButtonTapped(_ sender: Any) {
+        viewModel.saveChangesTapped()
+    }
+    
+    @IBAction func deleteActivityButtonTapped(_ sender: Any) {
+        viewModel.deleteActivityTapped()
+    }
+}
+
+// MARK: - TextField observers and delegates
+extension EditActivityVC {
     private func setupTextFieldDelegates() {
         activityNameTextField.delegate = self
         answerButtonTextField.delegate = self
@@ -39,14 +50,6 @@ final class EditActivityVC: UIViewController {
     private func setupTextFieldObservers() {
         activityNameTextField.addTarget(self, action: #selector(didActivityNameTextChanged), for: .editingChanged)
         answerButtonTextField.addTarget(self, action: #selector(didAnswerButtonTextChanged), for: .editingChanged)
-    }
-    
-    @IBAction func saveChangesButtonTapped(_ sender: Any) {
-        viewModel.saveChangesTapped()
-    }
-    
-    @IBAction func deleteActivityButtonTapped(_ sender: Any) {
-        viewModel.deleteActivityTapped()
     }
 }
 

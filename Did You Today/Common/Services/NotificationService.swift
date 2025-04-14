@@ -45,22 +45,18 @@ class NotificationService {
         let content = UNMutableNotificationContent()
         content.title = "Did You Today"
         content.body = "Did you \(activityName) today?"
-        content.sound = .default
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alert-notification-bells-jam-fx-high-1-00-01.wav"))
         
         content.userInfo = ["recordID": recordIDString]
         
         let calendar = Calendar.current
         let components = calendar.dateComponents([.hour, .minute], from: notificationTime)
-        
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
-        
         let request = UNNotificationRequest(identifier: notificationId, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error {
                 print("Error scheduling notification: \(error.localizedDescription)")
-            } else {
-                print("Successfully scheduled notification for '\(activityName)' at \(notificationTime)")
             }
         }
     }

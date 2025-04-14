@@ -17,18 +17,38 @@ protocol HomeViewModelProtocol {
     var numberOfItemsInSection: Int { get }
 }
 
+protocol NotificationCenterProtocol {
+    func addObserver(_ observer: Any, selector: Selector, name: NSNotification.Name?, object: Any?)
+    func removeObserver(_ observer: Any)
+    func post(name: NSNotification.Name, object: Any?)
+}
+
+// Extension to make NotificationCenter conform to our protocol
+extension NotificationCenter: NotificationCenterProtocol {}
+
 final class HomeVM {
     private weak var view: HomeViewProtocol?
     private let coordinator: HomeCoordinatorProtocol
     private var records: [DidYou] = []
+    private let coreDataService: CoreDataServiceProtocol
+    private let notificationCenter: NotificationCenterProtocol
     
-    init(view: HomeViewProtocol, coordinator: HomeCoordinatorProtocol) {
+    init(
+        view: HomeViewProtocol,
+        coordinator: HomeCoordinatorProtocol,
+        coreDataService: CoreDataServiceProtocol = CoreDataService.shared,
+        notificationCenter: NotificationCenterProtocol = NotificationCenter.default
+    ) {
         self.view = view
         self.coordinator = coordinator
+        self.coreDataService = coreDataService
+        self.notificationCenter = notificationCenter
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        // Remove self as an observer for all notifications
+        // This ensures we don't have any retain cycles
+        notificationCenter.removeObserver(self)
     }
 }
 
@@ -42,7 +62,6 @@ extension HomeVM: HomeViewModelProtocol {
         view?.setupUI()
         fetchRecords()
         registerNotificationCenterObserver()
-        
     }
 
     func addDidYouButtonTapped() {
@@ -69,7 +88,7 @@ extension HomeVM: HomeViewModelProtocol {
 //MARK: - FetchRecords
 extension HomeVM {
     func fetchRecords() {
-        CoreDataService.fetchCoreData { [weak self] records in
+        coreDataService.fetchCoreData { [weak self] records in
             guard let self, let records else { return }
             self.records = records
             
@@ -83,7 +102,7 @@ extension HomeVM {
 //MARK: - NotificationCenter
 extension HomeVM {
     func registerNotificationCenterObserver() {
-        NotificationCenter.default.addObserver(
+        notificationCenter.addObserver(
             self,
             selector: #selector(handleRecordCreation),
             name: .didFinishCreatingRecord,
@@ -91,7 +110,8 @@ extension HomeVM {
         )
     }
 
-    @objc private func handleRecordCreation() {
+    // Making this internal for testing purposes
+    @objc internal func handleRecordCreation() {
         refreshData()
     }
 }

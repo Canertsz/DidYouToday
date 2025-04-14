@@ -18,6 +18,21 @@ final class RecordCreationCoordinator {
     init(navigationController: UINavigationController?) {
         self.navigationController = navigationController
     }
+    
+    func start(buttonColor: String, answerButtonText: String, activityName: String, date: Date?) {
+        let viewController = RecordCreationVC.instantiateViewController()
+        let viewModel = RecordCreationVM(view: viewController,
+                                         coordinator: self,
+                                         buttonColor: buttonColor,
+                                         answerButtonText: answerButtonText,
+                                         activityName: activityName,
+                                         date: date)
+        
+        viewController.viewModel = viewModel
+        
+        navigationController?.pushViewController(viewController,
+                                                 animated: true)
+    }
 }
 
 // MARK: - Navigations

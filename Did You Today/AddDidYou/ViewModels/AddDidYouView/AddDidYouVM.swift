@@ -18,9 +18,9 @@ final class AddDidYouVM {
     private weak var view: AddDidYouViewProtocol?
     private let coordinator: AddDidYouCoordinatorProtocol
     
-    private var buttonColor: String = "#000000"
-    private var answerButtonText: String = ""
-    private var activityName: String = ""
+    private var buttonColor: String?
+    private var answerButtonText: String?
+    private var activityName: String?
     
     init(
         view: AddDidYouViewProtocol,
@@ -31,11 +31,10 @@ final class AddDidYouVM {
     }
     
     private func didFormChanged() {
-        if !answerButtonText.isEmpty && !activityName.isEmpty {
-            view?.enableNextPageNavigation()
-        } else {
-            view?.disableNextPageNavigation()
-        }
+        let isAnswerButtonTextValid = !(answerButtonText?.isEmpty ?? true)
+        let isActivityNameValid = !(activityName?.isEmpty ?? true)
+        let isFormValid = isAnswerButtonTextValid && isActivityNameValid
+        view?.setEnableNextPageNavigation(isEnabled: isFormValid)
     }
 }
 
@@ -44,7 +43,6 @@ extension AddDidYouVM: ColorPickerViewModelDelegate {
     func didSelectColor(hex: String) {
         buttonColor = hex
         view?.setButtonBackgroundColor(hex: hex)
-        
     }
 }
 
@@ -57,20 +55,26 @@ extension AddDidYouVM: AddDidYouViewModelProtocol {
     }
     
     func didActivityNameTextChanged(text: String?) {
-        guard let text else { return }
         activityName = text
         didFormChanged()
     }
     
     func didAnswerButtonTextChanged(text: String?) {
-        guard let text else { return }
         answerButtonText = text
         didFormChanged()
     }
     
     func nextPageButtonTapped() {
-        coordinator.navigateToNotificationPreferenceScreen(buttonColor: buttonColor,
-                                                           answerButtonText: answerButtonText,
-                                                           activityName: activityName)
+        guard
+            let answerButtonText,
+            let activityName,
+            let buttonColor
+        else { return }
+        
+        coordinator.navigateToNotificationPreferenceScreen(
+            buttonColor: buttonColor,
+            answerButtonText: answerButtonText,
+            activityName: activityName
+        )
     }
 }

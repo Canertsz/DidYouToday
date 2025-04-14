@@ -25,7 +25,9 @@ final class RecordDetailVM {
     let record: DidYou
     private var calendarViewModel: CalendarViewViewModelProtocol?
     
-    init(view: RecordDetailViewProtocol, coordinator: RecordDetailCoordinatorProtocol, record: DidYou) {
+    init(view: RecordDetailViewProtocol,
+         coordinator: RecordDetailCoordinatorProtocol,
+         record: DidYou) {
         self.view = view
         self.coordinator = coordinator
         self.record = record

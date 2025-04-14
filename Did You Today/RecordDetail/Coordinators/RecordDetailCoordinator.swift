@@ -8,32 +8,45 @@
 import Foundation
 import UIKit
 
-protocol RecordDetailCoordinatorProtocol {
+protocol RecordDetailCoordinatorProtocol: BaseCoordinator {
     func navigateToEditActivity(record: DidYou)
 }
 
 final class RecordDetailCoordinator {
     var navigationController: UINavigationController?
+    private let didYou: DidYou
     
-    init(navigationController: UINavigationController?) {
+    init(
+        navigationController: UINavigationController?,
+        didYou: DidYou
+    ) {
         self.navigationController = navigationController
+        self.didYou = didYou
+    }
+    
+    func start() {
+        let viewController = RecordDetailVC.instantiateViewController()
+        let viewModel = RecordDetailVM(
+            view: viewController,
+            coordinator: self,
+            record: didYou
+        )
+        viewController.viewModel = viewModel
+        
+        navigationController?.pushViewController(
+            viewController,
+            animated: true
+        )
     }
 }
 
 // MARK: - Navigations
 extension RecordDetailCoordinator: RecordDetailCoordinatorProtocol {
     func navigateToEditActivity(record: DidYou) {
-        let viewController = EditActivityVC.instantiateViewController()
-        let coordinator = EditActivityCoordinator(navigationController: navigationController)
-        
-        let viewModel = EditActivityVM(
-            view: viewController,
-            coordinator: coordinator,
+        let editActivityCoordinator = EditActivityCoordinator(
+            navigationController: navigationController,
             record: record
         )
-        
-        viewController.viewModel = viewModel
-        
-        navigationController?.pushViewController(viewController, animated: true)
+        editActivityCoordinator.start()
     }
 }
